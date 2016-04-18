@@ -1,5 +1,5 @@
 model_diagnostics <- function (predicted, actual, model_name = "Unkown Classifier" ) { #function and arguments
-  my_tbl <- table(Actual <-  actual, Predicted <-   predicted) #compile inputs into table
+  my_tbl <- table(Actual =  actual, Predicted = predicted) #compile inputs into table
   n <- sum(my_tbl) #total number of observations
   nc <- nrow(my_tbl) #total number of classes
   diag <- diag(my_tbl) #number of correctly classified observations per class 
@@ -8,6 +8,7 @@ model_diagnostics <- function (predicted, actual, model_name = "Unkown Classifie
   p <- rowsums / n #instances over the actual classes
   q <- colsums / n #instances over the predicted classes
   print(paste("Model Diagnostics:", model_name)) #prints out the model name
+  print(my_tbl)
   accuracy <-  sum(diag) / n  #Accuracy measurement
   print(paste("The overall accuracy of the predictions is:", accuracy * 100,"%")) #pretty print accuracy
   precision <-  diag / colsums #calculate precision
@@ -30,7 +31,7 @@ model_diagnostics <- function (predicted, actual, model_name = "Unkown Classifie
   print("Recall is defined as: Out of all the items that are truly correct, how many were found by the classifier?")
   expAccuracy <-  sum(p*q) #expected accuracy
   kappa <-  (accuracy - expAccuracy) / (1 - expAccuracy) #kappa statistic
-  print(paste("The kappa statistic is", kappa, ", Which is the measure of agreement between the predictions and actual lables, 0 is bad, 1 is good"))
+  print(paste("The kappa statistic is", kappa, ", Which is the measure of agreement between the predictions and actual labes, 0 is bad, 1 is good"))
   if (accuracy > 0.8 & avgAccuracy > 0.8 & kappa > 0.8) { #quick guy check
     print("This appears to be a good model")
   } else {
