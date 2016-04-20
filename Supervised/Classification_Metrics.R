@@ -1,4 +1,4 @@
-model_diagnostics <- function (predicted, actual, model_name = "Unkown Classifier" ) { #function and arguments
+model_diagnostics <- function (predicted, actual, model_name = "Unknown Classifier" ) { #function and arguments
   my_tbl <- table(Actual =  actual, Predicted = predicted) #compile inputs into table
   n <- sum(my_tbl) #total number of observations
   nc <- nrow(my_tbl) #total number of classes
