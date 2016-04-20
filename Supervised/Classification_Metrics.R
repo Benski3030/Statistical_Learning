@@ -14,12 +14,12 @@ model_diagnostics <- function (predicted, actual, model_name = "Unkown Classifie
   precision <-  diag / colsums #calculate precision
   recall <-  diag / rowsums  #calculate recall
   oneVsAll <-  lapply(1 : nc, #one v. all approximation
-                    function(i){
-                      v <-  c(my_tbl[i,i],
-                            rowsums[i] - my_tbl[i,i],
-                            colsums[i] - my_tbl[i,i],
-                            n-rowsums[i] - colsums[i] + my_tbl[i,i]);
-                      return(matrix(v, nrow =  2, byrow =  T))})
+                      function(i){
+                        v <-  c(my_tbl[i,i],
+                                rowsums[i] - my_tbl[i,i],
+                                colsums[i] - my_tbl[i,i],
+                                n-rowsums[i] - colsums[i] + my_tbl[i,i]);
+                        return(matrix(v, nrow =  2, byrow =  T))})
   s <-  matrix(0, nrow <-  2, ncol <-  2)
   for(i in 1 : nc){s <-  s + oneVsAll[[i]]} #for loop for list index
   avgAccuracy <-  sum(diag(s)) / sum(s) #calucate the average accuracy
@@ -37,4 +37,14 @@ model_diagnostics <- function (predicted, actual, model_name = "Unkown Classifie
   } else {
     cat("\n","Something isn't right, check the model again")
   }
+  if("pROC" %in% rownames(installed.packages()) == FALSE) {
+    install.packages("pROC")
+  }
+  prednum <- as.numeric(predicted)
+  actualnum <- as.numeric(actual)
+  auc <- pROC::roc(actualnum, prednum)
+  print (auc)
+  plot(auc, ylim=c(0,1), print.thres=TRUE, main=paste('AUC:',round(auc$auc[[1]],2)))
+  abline(h=1,col='blue',lwd=2)
+  abline(h=0,col='red',lwd=2)
 }
