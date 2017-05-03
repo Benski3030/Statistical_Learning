@@ -46,7 +46,7 @@ plotData <- data.frame(
   ,arima=result_autoarima$results$MAPE[1:12]
   ,ets=result_ets$results$MAPE[1:12]
   ,theta=result_theta$results$MAPE[1:12]
-  ,theta=result_lm$results$MAPE[1:12]
+  ,lm=result_lm$results$MAPE[1:12]
   ,tbats=result_tbats$results$MAPE[1:12]
 )
 plotData <- melt(plotData, id.vars='horizon', value.name='MAPE', variable.name='model')
